@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573667899094.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1769034277",
+    "id" : "D5E1B971",
+    "lastKnownWriteTime" : 1573736273,
+    "last_content_update" : 1573736273247,
+    "path" : "D:/Programs/r_programs/Week2/week2.Rmd",
+    "project_path" : "week2.Rmd",
+    "properties" : {
+        "cursorPosition" : "68,49",
+        "scrollLine" : "58"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

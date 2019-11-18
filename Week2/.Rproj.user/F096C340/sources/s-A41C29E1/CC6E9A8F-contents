@@ -1,0 +1,88 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+1 a)
+
+```{r}
+
+library(MASS)
+
+bivariate_p = 2
+mu = c(0, 2)
+x_variance = 2.0
+cor = -0.75
+n = 200
+varX1 = 2.0
+varX2 = 3.0
+
+# Calculate covariance
+covX1X2 = (cor*sqrt(varX1*varX2))
+print(covX1X2)
+
+
+data = mvrnorm(n, mu, Sigma = matrix(c(varX1, covX1X2, covX1X2, varX2), ncol = 2, byrow = TRUE))
+# The R functions mvrnorm (from library MASS), cov, and cor should do the job.
+
+empcov = cov(data)
+empcor = cor(data)
+
+print(empcov)
+print(empcor)
+print(covX1X2)
+```
+
+b)
+```{r}
+
+plot(data)
+# data[,1]
+kde = kde2d(data[,1], data[,2], n = n)
+
+colours = c("red", "green", "purple", "yellow", "blue")
+
+image(kde)
+
+contour(kde, add = TRUE, col = colours)
+
+persp(kde)
+
+```
+
+c)
+```{r}
+
+# install.packages("mvtnorm")
+# require(mvtnorm)
+
+mygrid = expand.grid(.25*(-20:20),.25*(-20:20))
+
+# solve(mygrid)
+densitydata = dmvnorm(mygrid, mean = mu, covX1X2, log = FALSE)
+
+
+# tästä matriisi matrix(densitydata, nrow=41)
+
+# contour, image, and persp 
+
+```
+
+$N (x | µ, σ2) = 1√2πσ2exp −(x − µ)22σ2$
+d)
+
+```{r}
+
+
+
+```
+
+
+
+$N (x | µ, σ2) = 1√2πσ2exp −(x − µ)22σ2$

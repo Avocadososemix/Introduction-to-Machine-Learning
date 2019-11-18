@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r warning=TRUE}
+# https://www.wolframalpha.com/input/?i=%5C%5BSqrt%5D%28-ln%280.05%2F2%29%2F2%2F10%29
+
+p1 = 0.5
+p2 = 0.9
+p3 = 0.99
+n1 = 10
+n2 = 100
+n3 = 1000
+
+n1p1 = rbinom(10000, n1, p1)
+n1p2 = rbinom(10000, n1, p2)
+n1p3 = rbinom(10000, n1, p3)
+
+n2p1 = rbinom(10000, n2, p1)
+n2p2 = rbinom(10000, n2, p2)
+n2p3 = rbinom(10000, n2, p3)
+
+n3p1 = rbinom(10000, n3, p1)
+n3p2 = rbinom(10000, n3, p2)
+n3p3 = rbinom(10000, n3, p3)
+```
+
+```{r warning=TRUE}
+count = 0
+for (x in n1p3) {
+  if (x>0.70531 & x<9.29469) {
+    count = count+1
+  }
+}
+print(count/10000)
+
+
+
+count = 0
+for (x in n2p1) {
+  if (x>3.641898 & x<63.58102) {
+    count = count+1
+  }
+}
+print(count/10000)
+
+count = 0
+for (x in n3p3) {
+  if (x>542.9469 & x<85.8938) {
+    count = count+1
+  }
+}
+print(count/10000)
+
+
+```
+
+# c)
+```{r}
+
+
+
+```
+
+

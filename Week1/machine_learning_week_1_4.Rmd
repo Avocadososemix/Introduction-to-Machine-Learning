@@ -1,0 +1,111 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+x <- runif(30, min = -3, max = 3)
+e = rnorm(30, mean = 0, sd = 0.4)
+
+y = 2+x−0.5*x^2 + e
+
+df <- data.frame("x" = x, "y" = y)
+
+# df = df[order)(df$x), ]
+c = mean(df$y)
+
+
+plot(df)
+
+model1 <- lm(y~poly(x,1), data=df)
+model2 <- lm(y~poly(x,2), data=df)
+model3 <- lm(y~poly(x,3), data=df)
+model4 <- lm(y~poly(x,4), data=df)
+model5 <- lm(y~poly(x,5), data=df)
+model6 <- lm(y~poly(x,6), data=df)
+model7 <- lm(y~poly(x,7), data=df)
+model8 <- lm(y~poly(x,8), data=df)
+
+print(model4)
+# summary(model4)
+
+mse <- function(model) 
+    mean(model$residuals^2)
+
+mse(model1)
+mse(model2)
+mse(model3)
+mse(model4)
+mse(model5)
+mse(model6)
+mse(model7)
+mse(model8)
+
+plot(df)
+
+grid <- data.frame(x=seq(-3,3, by=.01))
+plot(df)
+lines(grid$x, predict(model4, newdata=grid), col="red")
+lines(grid$x, predict(model1, newdata=grid), col="blue")
+lines(grid$x, predict(model2, newdata=grid), col="green")
+lines(grid$x, predict(model3, newdata=grid), col="yellow")
+
+grid2 <- data.frame(x=seq(-3,3, by=.01))
+plot(df)
+lines(grid2$x, predict(model5, newdata=grid), col="purple")
+lines(grid2$x, predict(model6, newdata=grid), col="red")
+lines(grid2$x, predict(model7, newdata=grid), col="blue")
+lines(grid2$x, predict(model8, newdata=grid), col="green")
+```
+
+# b)
+```{r}
+# b kohta mse vektoreihin saat laskettua
+# mse numeric, saat taulukon jota voi käsitellä kuten javassa mse vector [i][j]
+
+x2 <- runif(1000, min = -3, max = 3)
+e2 = rnorm(1000, mean = 0, sd = 0.4)
+
+y2 = 2+x2−0.5*x2^2 + e2
+
+df2 <- data.frame("x" = x2, "y" = y2)
+# Testing data is not a good estimate of the training data
+plot(df2)
+
+model5 <- lm(y~poly(x2,4), data=df2)
+predict(lm(y2 ~ x2))
+
+predict(model4, newdata = model5)
+
+
+pred.w.plim <- predict(lm(y2 ~ x2), new, interval = "prediction")
+pred.w.clim <- predict(lm(y2 ~ x2), new, interval = "confidence")
+matplot(new$x2, cbind(pred.w.clim, pred.w.plim[,-1]),
+        lty = c(1,2,2,3,3), type = "l", ylab = "predicted y")
+
+
+
+mse(model5)
+
+grid2 <- data.frame(x=seq(-3,3, by=.01))
+plot(df2, df)
+lines(grid$x, predict(model5, newdata=grid), col="red")
+```
+
+# c)
+```{r}
+
+n <- 3
+nr <- nrow(df)
+split(df, rep(1:ceiling(nr/n), each=n, length.out=nr))
+
+mse = 0
+# unsplit the data into training and test data
+# find mean of data
+# do mse
+
+
+
+
+
+```
+

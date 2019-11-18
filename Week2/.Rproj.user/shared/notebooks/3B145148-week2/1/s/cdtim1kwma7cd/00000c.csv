@@ -1,0 +1,6 @@
+"0","# data[,1]"
+"0","kde = kde2d(data[,1], data[,2], n = n)"
+"0",""
+"0","colours = c(""red"", ""green"", ""purple"", ""yellow"", ""blue"")"
+"0",""
+"0","image(kde)"

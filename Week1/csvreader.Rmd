@@ -1,0 +1,68 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+rm(list = ls())
+df = read.csv("machine_learning_week_0.csv", header = TRUE)
+# find two largest variance columns
+vn1 = .Machine$double.xmin
+vn2 = .Machine$double.xmin
+
+find_variance3 <- function(df) {
+  v1 = 0
+  v2 = 0
+  for (i in colnames(df)) {
+    v0 = var(df[i])
+    print(v0)
+    if (v0 > v1) {
+      v2 = v1
+      v1 = v0
+      vn1 <<- i
+    } else if (v0 > v2) {
+      df[vn2] <- NULL
+      v2 = v0
+      vn2 <<- i
+    }
+  }
+  }
+
+
+find_variance2 <- function(df) {
+  list <- c()
+  v1 = 0
+  v2 = 0
+  for (i in colnames(df)) {
+    v0 = var(df[i])
+    if (v0 > v1) {
+      v2 = v1
+      v1 = v0
+      vn1 <<- i
+    } else if (v0 > v2) {
+      df[vn2] <- NULL
+      v2 = v0
+      vn2 <<- i
+    }
+    list <- c(list, v0)
+  }
+  return(list)
+}
+
+print(vn1)
+print(vn2)
+
+find_variance3(df)
+
+#plot((df[vn1,]), (df[vn2,]), main = "Exercise 5")
+```
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

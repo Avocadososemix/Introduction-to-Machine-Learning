@@ -1,0 +1,28 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+rm(list = ls())
+df = read.csv("machine_learning_week_0.csv", header = TRUE)
+# find two largest variance rows
+
+find_variance_and_plot <- function(df) {
+  var_first = colnames(df)[1]
+  var_second = colnames(df)[2]
+  for (i in colnames(df)){
+    current_var = var(df[[i]])
+    if (current_var >= var(df[[var_first]])) {
+      var_first = i
+    } else if (current_var >= var(df[[var_second]])) {
+      var_second = i
+    }
+  }
+  var_first<-sub("V", "", var_first)
+  var_second<-sub("V", "", var_second)
+  plot(df[[as.integer(var_first)]], df[[as.integer(var_second)]], main = "Exercise 5")
+}
+
+find_variance_and_plot(df)
+
+```

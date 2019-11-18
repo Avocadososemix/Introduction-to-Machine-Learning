@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r warning=TRUE}
+p1 = 0.5
+p2 = 0.9
+p3 = 0.99
+n = 10
+n2 = 100
+n3 = 1000
+
+n1p1 = rbinom(10000, n1, p1)
+n1p2 = rbinom(10000, n1, p2)
+n1p3 = rbinom(10000, n1, p3)
+
+n2p1 = rbinom(10000, n2, p1)
+n2p2 = rbinom(10000, n2, p2)
+n2p3 = rbinom(10000, n2, p3)
+
+n3p1 = rbinom(10000, n3, p1)
+n3p2 = rbinom(10000, n3, p2)
+n3p3 = rbinom(10000, n3, p3)
+```
+
+```{r warning=TRUE}
+count = 0
+for (x in n1p1) {
+  if (x>5 & x<10) {
+    count = count+1
+  }
+}
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

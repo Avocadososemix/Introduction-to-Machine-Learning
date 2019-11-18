@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Exercise 2
+
+### a)
+```{r}
+rm(list = ls())
+college = read.csv("College.csv", header = TRUE)
+```
+### b)
+```{r}
+fix(college)
+#rownames (college )=college [,1]
+#fix(college)
+college =college [,-1]
+fix(college)
+```
+### c)
+```{r}
+summary(college) # i)
+pairs(college) # ii)
+boxplot(college$Outstate, college$Private) # iii)
+```
+```{r}
+Elite=rep("No",nrow(college )) # iv
+Elite[college$Top10perc >50]=" Yes"
+Elite=as.factor(Elite)
+college=data.frame(college , Elite)
+summary(Elite)
+plot(Elite, college$Outstate)
+```
+```{r}
+par(mfrow=c(2,2)) # v
+hist(college$PhD)
+hist(college$Grad.Rate)
+hist(college$Enroll)
+hist(college$Accept)
+```
+
+```{r}
+# vi
+kollege=college [,3]
+summary(kollege)
+kollege=college [,3,4]
+summary(kollege)
+```
+
+
+

@@ -1,0 +1,12 @@
+"0",""
+"0","#install.packages(""mvtnorm"")"
+"0","require(mvtnorm)"
+"2","Loading required package: mvtnorm
+"
+"0","mygrid = expand.grid(.25*(-20:20),.25*(-20:20))"
+"0",""
+"0","# solve(mygrid)"
+"0","densitydata = dmvnorm(mygrid, mean = mu, covX1X2, log = FALSE)"
+"2","Error in if (p != ncol(sigma)) stop(""x and sigma have non-conforming size"") : 
+  argument is of length zero
+"

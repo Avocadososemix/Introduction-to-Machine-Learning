@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574089079779.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1839014744",
+    "id" : "47D1B235",
+    "lastKnownWriteTime" : 1574099601,
+    "last_content_update" : 1574099601288,
+    "path" : "D:/Programs/r_programs/Week3/Exercise1.Rmd",
+    "project_path" : "Exercise1.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "29,25",
+        "scrollLine" : "19",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
