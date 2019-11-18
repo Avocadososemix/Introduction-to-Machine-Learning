@@ -17,6 +17,127 @@ varian_j = 16
 
 ```
 
+# 1
+# a)
+```{r}
+rm(list = ls())
+
+library(MASS)
+require(MASS)
+library(mvtnorm)
+
+
+x <- c(1,2) # values of X_1 and X_2
+sigma <- matrix(c(16,0,0,16), ncol = 2, byrow = TRUE) # +1 matrix
+mu <- c(0,0)
+sigma2 <- matrix(c(1,0,0,1), ncol = 2, byrow = TRUE) # -1 matrix
+
+density_Yplus <- dmvnorm(x=x, mean =mu, sigma)
+density_Yminus <- dmvnorm(x=x, mean =mu, sigma2)
+
+posterior_probability = (density_Yplus*0.5)/(density_Yplus*0.5+density_Yminus*0.5)
+```
+# b)
+```{r}
+require(mvtnorm)
+
+mygrid = expand.grid(.25*(-20:20),.25*(-20:20))
+colours = c("red", "green", "purple", "yellow", "blue")
+
+# solve(mygrid)
+densitydata = dmvnorm(mygrid, mean = mu, sigma = sigma, log = FALSE)
+# print(densitydata)
+
+densitymatrix = matrix(densitydata, nrow=41)
+
+# Visualize
+# contour, image, and persp 
+image(densitymatrix)
+contour(densitymatrix, col = colours, add = TRUE)
+```
+# c)
+```{r}
+
+```
+
+
+# 2.
+# a)
+```{r}
+rm(list = ls())
+distributionY = sample(0:2, size=100, replace=TRUE, prob=c(0.4,0.3,0.3))
+
+size = 100
+
+gridY0 <- expand.grid(0:1,0:2)[sample(1:6, size, replace=TRUE, prob=c(0.2,0.1,0.4,0.2,0.0,0.1)),]
+gridY1 <- expand.grid(0:1,0:2)[sample(1:6, size, replace=TRUE, prob=c(0.6,0.1,0.1,0.1,0.1,0.0)),]
+gridY2 <- expand.grid(0:1,0:2)[sample(1:6, size, replace=TRUE, prob=c(0.1,0.4,0.3,0.0,0.2,0.0)),]
+
+distributionN0 = sum(distributionY==0)
+sum(distributionY==0 & gridY1$Var1==0 & gridY1$Var2==0)
+
+distributionN1 = sum(distributionY==1)
+distributionN2 = sum(distributionY==2)
+distributionsN <- c(distributionN0, distributionN1, distributionN2)
+```
+# b)
+
+```{r}
+y0_x1_0 <- sum(distributionY==0 & gridY0$Var1==0)
+y1_x1_0 <- sum(distributionY==1 & gridY1$Var1==0)
+y2_x1_0 <- sum(distributionY==2 & gridY2$Var1==0)
+
+y0_x1_1 <- sum(distributionY==0 & gridY0$Var1==1)
+y1_x1_1 <- sum(distributionY==1 & gridY1$Var1==1)
+y2_x1_1 <- sum(distributionY==2 & gridY2$Var1==1)
+
+y0_x2_0 <- sum(distributionY==0 & gridY0$Var1==0)
+y1_x2_0 <- sum(distributionY==1 & gridY1$Var1==0)
+y2_x2_0 <- sum(distributionY==2 & gridY2$Var1==0)
+
+y0_x2_1 <- sum(distributionY==0 & gridY0$Var1==1)
+y1_x2_1 <- sum(distributionY==1 & gridY1$Var1==1)
+y2_x2_1 <- sum(distributionY==2 & gridY2$Var1==1)
+
+y0_x2_2 <- sum(distributionY==0 & gridY0$Var1==2)
+y1_x2_2 <- sum(distributionY==1 & gridY0$Var1==2)
+y2_x2_2 <- sum(distributionY==2 & gridY0$Var1==2)
+
+#probability P(x1 = 0 | y = 0)
+
+nc = y0_x1_0
+n = distributionN0
+
+alpha <- c(0,0.5,1)
+alphanames <- c("Maximum_likelyhood", "Krichevsky-Trofimov", "Laplace")
+
+posterior_prob <- function(alpha, alphanames, distributionsN) {
+  for (val in c(0,1,2))
+    {
+    print("tähän nc vaihtelu")
+  for (val in c(0,1,2))
+    {
+    print(val)
+    probP = (nc + alpha[val])/(n + alpha[val])
+    print(sprintf("Probability for %s with is: %s", alphanames[val], probP))
+  }
+}
+}
+
+posterior_prob(alpha, alphanames, distributionsN)
+               
+# lopuksi nc on n, n = 100, sama juttu uudestaan kolme kertaa y = {0,1,2}
+# probP = (nc + alpha[val])/(n + 3*alpha[val])
+
+
+#alpha_maximum_likelyhood = 0
+#alpha_laplace = 1
+#alpha_Krichevsky-Trofimov = 0.5
+#probP = (nc + alpha_maximum_likelyhood)/(n + 3*alpha_maximum_likelyhood)
+
+```
+
+
 *Normal Distribution equation*
 
 > f(x) = 1/(√(2 π) σ) e^-((x - μ)^2/(2 σ^2)) 
@@ -24,57 +145,16 @@ varian_j = 16
 ```{r}
 
 norm0 = 0.5
-norm1 = (1/(sqrt(2 * pi) * varian_j^2))*exp((-x1 - mu)^2/(2 * varian_j^2))
-norm2 = 1/(sqrt(2 * pi) * varian_j^2) *exp(-((x2 - mu)^2/(2 * varian_j^2)))
+norm1 = (1/(sqrt(2 * pi) * varian_j^(1/2)))*exp((-x1 - mu)^2/(2 * varian_j^2))
+norm2 = 1/(sqrt(2 * pi) * varian_j^(1/2)) *exp(-((x2 - mu)^2/(2 * varian_j^2)))
 
 probY = norm0*norm1*norm2
 print("1. a)")
 sprintf("Probability is: %s", probY)
 
-x=seq(-1,1,length=200)
-y=dnorm(x,mean=0,sd=1)
-y2=dnorm(x,mean=0,sd=1)
-plot(x,y,type="l",lwd=2,col="red")
-plot(x,y2,type="l",lwd=2,col="blue")
-```
-
-Example
-
-```{r}
-
-require(graphics)
-
-dnorm(0) == 1/sqrt(2*pi)
-dnorm(1) == exp(-1/2)/sqrt(2*pi)
-dnorm(1) == 1/sqrt(2*pi*exp(1))
-
-## Using "log = TRUE" for an extended range :
-par(mfrow = c(2,1))
-plot(function(x) dnorm(x, log = TRUE), -60, 50,
-     main = "log { Normal density }")
-curve(log(dnorm(x)), add = TRUE, col = "red", lwd = 2)
-mtext("dnorm(x, log=TRUE)", adj = 0)
-mtext("log(dnorm(x))", col = "red", adj = 1)
-
-plot(function(x) pnorm(x, log.p = TRUE), -50, 10,
-     main = "log { Normal Cumulative }")
-curve(log(pnorm(x)), add = TRUE, col = "red", lwd = 2)
-mtext("pnorm(x, log=TRUE)", adj = 0)
-mtext("log(pnorm(x))", col = "red", adj = 1)
-
-## if you want the so-called 'error function'
-erf <- function(x) 2 * pnorm(x * sqrt(2)) - 1
-## (see Abramowitz and Stegun 29.2.29)
-## and the so-called 'complementary error function'
-erfc <- function(x) 2 * pnorm(x * sqrt(2), lower = FALSE)
-## and the inverses
-erfinv <- function (x) qnorm((1 + x)/2)/sqrt(2)
-erfcinv <- function (x) qnorm(x/2, lower = FALSE)/sqrt(2)
-
-
-
 
 ```
+
 
 
 
