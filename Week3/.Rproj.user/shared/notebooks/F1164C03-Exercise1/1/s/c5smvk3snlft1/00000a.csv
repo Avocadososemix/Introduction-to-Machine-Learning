@@ -1,3 +1,0 @@
-"0",""
-"0","plot(function(x) pnorm(x, log.p = TRUE), -50, 10,"
-"0","     main = ""log { Normal Cumulative }"")"

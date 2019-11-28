@@ -1,0 +1,150 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+## Exercise 3b
+
+```{r}
+print("Install missing packages")
+install.packages("tidyverse")
+install.packages("ggthemes")
+```
+```{r}
+library("e1071")
+library("ISLR")
+```
+
+
+```{r}
+
+require(ISLR); require(tidyverse); require(ggthemes)
+require(caret); require(e1071)
+set.seed(1)
+
+data('OJ')
+
+inTrain <- sample(nrow(OJ), 800, replace = FALSE)
+
+training <- OJ[inTrain,]
+testing <- OJ[-inTrain,]
+```
+#b)
+```{r}
+svm_linear <- svm(Purchase ~ ., data = training,
+                  kernel = 'linear',
+                  cost = 0.01)
+summary(svm_linear)
+```
+#c)
+```{r}
+postResample(predict(svm_linear, training), training$Purchase)
+
+```
+
+```{r}
+postResample(predict(svm_linear, testing), testing$Purchase)
+```
+#d)
+```{r}
+svm_linear_tune <- train(Purchase ~ ., data = training,
+                         method = 'svmLinear2',
+                         trControl = trainControl(method = 'cv', number = 10),
+                         preProcess = c('center', 'scale'),
+                         tuneGrid = expand.grid(cost = seq(0.01, 10, length.out = 20)))
+
+svm_linear_tune
+```
+
+#e)
+```{r}
+postResample(predict(svm_linear_tune, training), training$Purchase)
+```
+
+```{r}
+postResample(predict(svm_linear_tune, testing), testing$Purchase)
+```
+
+#f)
+```{r}
+svm_radial <- svm(Purchase ~ ., data = training,
+                  method = 'radial',
+                  cost = 0.01)
+summary(svm_radial)
+```
+
+```{r}
+postResample(predict(svm_radial, training), training$Purchase)
+```
+
+```{r}
+postResample(predict(svm_radial, testing), testing$Purchase)
+```
+
+```{r}
+
+install.packages("kernlab")
+library("kernlab")
+
+```
+
+```{r message=TRUE, warning=TRUE}
+
+svm_radial_tune <- train(Purchase ~ ., data = training,
+                         method = 'svmRadial',
+                         trControl = trainControl(method = 'cv', number = 10),
+                         preProcess = c('center', 'scale'),
+                         tuneGrid = expand.grid(C = seq(0.01, 10, length.out = 20),
+                                                sigma = 0.05691))
+
+svm_radial_tune
+
+```
+
+```{r}
+postResample(predict(svm_radial_tune, training), training$Purchase)
+```
+
+```{r}
+postResample(predict(svm_radial_tune, testing), testing$Purchase)
+```
+
+```{r}
+svm_poly <- svm(Purchase ~ ., data = training,
+                  method = 'polynomial', degree = 2,
+                  cost = 0.01)
+summary(svm_poly)
+```
+
+```{r}
+postResample(predict(svm_poly, training), training$Purchase)
+```
+
+```{r}
+postResample(predict(svm_poly, testing), testing$Purchase)
+```
+
+```{r}
+svm_poly_tune <- train(Purchase ~ ., data = training,
+                         method = 'svmPoly',
+                         trControl = trainControl(method = 'cv', number = 10),
+                         preProcess = c('center', 'scale'),
+                         tuneGrid = expand.grid(degree = 2,
+                                         C = seq(0.01, 10, length.out = 20),
+                                         scale = TRUE))
+
+svm_poly_tune
+```
+
+```{r}
+postResample(predict(svm_poly_tune, training), training$Purchase)
+```
+
+```{r}
+postResample(predict(svm_poly_tune, testing), testing$Purchase)
+```
+
+
+
