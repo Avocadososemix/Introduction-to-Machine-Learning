@@ -13,7 +13,8 @@ install.packages("tidyverse")
 install.packages("ggthemes")
 ```
 ```{r}
-library("e1071")
+install.packages("e1071")
+# library("e1071")
 library("ISLR")
 ```
 
@@ -33,9 +34,7 @@ testing <- OJ[-inTrain,]
 ```
 #b)
 ```{r}
-svm_linear <- svm(Purchase ~ ., data = training,
-                  kernel = 'linear',
-                  cost = 0.01)
+svm_linear <- svm(Purchase ~ ., data = training, kernel = 'linear', cost = 0.01)
 summary(svm_linear)
 ```
 #c)
