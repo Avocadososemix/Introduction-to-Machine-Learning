@@ -1,0 +1,138 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library("MASS")
+```
+
+```{r}
+Sigma <- matrix(c(1,0,0,1), ncol=2, byrow=TRUE)
+mu = c(0,0)
+meindata <- mvrnorm(n =100, mu=mu, Sigma = Sigma) # n pitää olla 100, mutta testatessa pienempi
+mymatrix <- matrix(meindata, ncol=2)
+plot(mymatrix)
+
+calc_euclidian_dist <- function(x1, x2, y1, y2) {
+  # sqrt((x1-x2)^2+(y1-y2)^2)
+  sqrt((x1-x2)^2)+((y1-y2)^2)
+}
+
+calc_euclidian_dist_centroids <- function(x, K, centroids_list) {
+  dist <-c()
+  #print("Printing centroids_list:")
+  #print(centroids_list)
+  for(j in 1:K) {
+    eucdist <<-calc_euclidian_dist(x[1], centroids_list[[j]][1], x[2], centroids_list[[j]][2]) # tähän avaat ja käyt läpi listan centroidit ja teet eucdistin niille
+    
+    dist <-c(dist, eucdist)
+  }
+  
+  min_dist <-which.min(dist)
+}
+
+# nyt täytyy luoda centroidit
+# while loop, jossa otetaan jokaisen kyseisen K V1 V2 keskiarvot, ja annetaan Centroidille(K).
+# tämän voi tehdä apufunktiossa
+# luo centroideista lista, jonka palautat takaisin tälle funktiolle
+create_centroids <- function(k_data_colour, K) {
+  #print("Printing k_data_colour")
+  #print(k_data_colour)
+  #print("Printing K")
+  #print(K)
+  
+  centroids_list <- list()
+  for(i in 1:K) {
+    subx <- subset(k_data_colour[,1],k_data_colour[,3]==i)
+    suby <- subset(k_data_colour[,2],k_data_colour[,3]==i)
+    meanx <- mean(subx)
+    meany <- mean(suby)
+    #print("Mean X")
+    #print(meanx)
+    #print("Mean Y")
+    #print(meany)
+    centroid <- c(meanx, meany)
+    #print("Centroid:")
+    #print(centroid)
+    centroids_list <-c(centroids_list, list(centroid))
+    #print("Centroids_list")
+    #print(centroids_list)
+  }
+  centroids_list
+}
+
+#identical(vector, vector)
+# true jos ovat samat
+
+# funktio joka antaa alkioille arvon/värin
+
+
+# centroidit luodaan pylpyröiden keskipisteelle
+
+# centroideihin tallennetaan kaikki niitä lähimpänä olevat pylpyrät
+
+#luo lista centroideista
+# joka sisältää centroid-vektorit (2-uloitteisia, sisältävät omat pylpyränsä)
+
+# centroidien laskeminen algoritmi
+
+# 
+# 
+# k-means algoritmi
+#  anna pylpyrämatriisille jokaiselle oma väri/numero (cbind) (kertaa K)
+k_means <- function(data, K) {   # data on mymatrix
+  k_data <- data
+  clusters <<- c()
+  for(i in k_data) {
+    random_number <- sample(K,1)
+    clusters <<- c(clusters, random_number)
+  }
+  k_data_colour <- cbind(k_data, clusters)
+  #print("Printing k_data_colour")
+  #print(k_data_colour)
+
+
+  previous_clusters <<-c()
+  new_clusters <<-c()
+  #print("tässä")
+  while(TRUE) {
+    centroids_list <- create_centroids(k_data_colour, K)
+    #print("Printing centroids list")
+    #print(centroids_list)
+    previous_clusters <<- new_clusters
+    new_clusters <<- c()
+
+    apply(k_data, 1, FUN=function(x) {
+    minimum_dist <<- calc_euclidian_dist_centroids(x, K, centroids_list)
+  #luo functio joka laskee jokaisen pylpyrän lyhimmän euclidiaanisen etäisyyden centroideihin, ja selvitä mikä centroidi on lähin.
+    new_clusters <<-c(new_clusters, minimum_dist)
+    })
+    k_data_colour[,3] <- new_clusters
+    if (identical(new_clusters, previous_clusters)) {
+      break
+    }
+  # tutki ovatko vanhat klusterit samoja kuin uudet. Jos ovat, break, algoritmi ajettu loppuun.
+  # kannattaa käyttää identical(cluster, cluster) -sisäistä metodia.
+  }
+  previous_clusters <<-c()
+  new_k_matrix <-cbind(k_data, new_clusters)
+}
+
+#print("rivi 110")
+result <-k_means(mymatrix, 3)
+
+# luo 
+df <- data.frame(result)
+print(df)
+
+plot(df$V1, df$V2, col=factor(df$new_clusters))
+# 
+
+
+```
+
